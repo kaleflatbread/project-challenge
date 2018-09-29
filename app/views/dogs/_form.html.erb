@@ -1,7 +1,8 @@
 <%= simple_form_for @dog do |f| %>
   <%= f.input :name %>
   <%= f.input :description, as: :text %>
-  <%= f.input :image, as: :file %>
+  <!-- allow multiple images to be added to new or edit dog form -->
+  <%= f.input :image, as: :file, input_html: {multiple: true} %>
 
   <% if @dog.images.any? %>
     <%= image_tag @dog.images.first %>
