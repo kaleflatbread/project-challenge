@@ -1,1 +1,4 @@
 <%= render partial: 'thumbnail', collection: @dogs, as: :dog %>
+
+<!-- pagination links -->
+<%= will_paginate @dogs, previous_label: 'Previous', next_label: 'Next' %>
