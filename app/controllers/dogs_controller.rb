@@ -68,10 +68,16 @@ class DogsController < ApplicationController
     end
   end
 
+  # GET /dogs/:id/like
   def like
+    Like.find_or_create_by(dog_id: @dog.id, user_id: current_user.id)
+    redirect_to @dog
   end
 
+  # DELETE /dogs/:id/unlike
   def unlike
+    Like.find_by(dog_id: @dog.id, user_id: current_user.id).delete
+    redirect_to @dog
   end
 
   private
