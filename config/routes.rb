@@ -5,4 +5,8 @@ Rails.application.routes.draw do
     resources :likes
   end
   root to: "dogs#index"
+
+  get 'dogs/:id/like', to: 'dogs#like', as: 'like'
+  delete 'dogs/:id/unlike', to: 'dogs#unlike', as: 'unlike'
+
 end

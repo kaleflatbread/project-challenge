@@ -1,6 +1,9 @@
 <section>
   <h2><%= @dog.name %></h2>
 
+  <h3>Likes: <%= @dog.get_likes.count%></h3>
+  <%= render partial: "like", locals: { dog: @dog} %>
+
   <% @dog.images.each do |image| %>
     <%= image_tag url_for(image), alt: "Photo of #{@dog.name}" %>
   <% end %>

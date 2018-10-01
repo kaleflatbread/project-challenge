@@ -1,4 +1,8 @@
-<%= render partial: 'thumbnail', collection: @dogs, as: :dog %>
+<% if !@sorted %>
+  <%= link_to "Sort by: likes", dogs_path(sorted: true) %>
+<% end %>
+
+<%= render partial: 'thumbnail', collection: @dogs, as: :dog, locals: {sorted: @sorted} %>
 
 <!-- pagination links -->
 <%= will_paginate @dogs, previous_label: 'Previous', next_label: 'Next' %>
