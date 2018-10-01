@@ -26,12 +26,11 @@ class DogsController < ApplicationController
   # POST /dogs.json
   def create
     @dog = Dog.new(dog_params)
-    # add dog to current user's dogs
-    current_user.dogs << @dog
+    @dog.user = current_user
+
     respond_to do |format|
       if @dog.save
-
-        @dog.images.attach(params[:dog][:images]) if params[:dog][:images].present?
+        @dog.images.attach(params[:dog][:image]) if params[:dog][:image].present?
 
         format.html { redirect_to @dog, notice: 'Dog was successfully created.' }
         format.json { render :show, status: :created, location: @dog }
@@ -77,6 +76,6 @@ class DogsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def dog_params
-      params.require(:dog).permit(:name, :description, :images, :user_id)
+      params.require(:dog).permit(:name, :description, :images)
     end
 end
