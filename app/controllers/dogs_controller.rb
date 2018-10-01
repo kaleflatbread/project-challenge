@@ -4,8 +4,14 @@ class DogsController < ApplicationController
   # GET /dogs
   # GET /dogs.json
   def index
-    # add pagination
-    @dogs = Dog.all.paginate(page: params[:page], per_page: 5)
+    # when sort by likes link at the top of the page is clicked, do this
+    if params['sorted']
+      @sorted = true
+      @dogs = Dog.last_hour.paginate(page: params[:page], per_page: 5)
+    # otherwise, do this (order by id)
+    else
+      @dogs = Dog.all.paginate(page: params[:page], per_page: 5)
+    end
   end
 
   # GET /dogs/1
@@ -26,6 +32,7 @@ class DogsController < ApplicationController
   # POST /dogs.json
   def create
     @dog = Dog.new(dog_params)
+    # define dog user
     @dog.user = current_user
 
     respond_to do |format|
@@ -68,15 +75,17 @@ class DogsController < ApplicationController
     end
   end
 
-  # GET /dogs/:id/like
+  # POST /dogs/1/like
   def like
     Like.find_or_create_by(dog_id: @dog.id, user_id: current_user.id)
+    # redirect to refresh page
     redirect_to @dog
   end
 
-  # DELETE /dogs/:id/unlike
+  # DELETE /dogs/1/unlike
   def unlike
     Like.find_by(dog_id: @dog.id, user_id: current_user.id).delete
+    # redirect to refresh page
     redirect_to @dog
   end
 
